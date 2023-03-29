@@ -14,6 +14,7 @@ class BlackjackGame:
         self.dealer = Hand()
         self.split_hands = []
         self.num_hands = 0
+        self.dealer_last_hand = []
 
     def play_hand(self, hand):
         # This method plays one hand of Blackjack.
@@ -21,7 +22,7 @@ class BlackjackGame:
         self.num_hands += 1
         while True:
             # Ask the bot what it wants to do
-            decision = self.bot.get_decision(self.bot, self.dealer.get_cards()[0], hand.get_cards())
+            decision = self.bot.get_decision(self.bot, self.dealer.get_cards()[0], hand.get_cards(), self.dealer_last_hand)
             if decision == "hit":
                 hand.add_card(self.deck.deal_card())
                 print(f"Hit: {hand.get_cards()[-1]}")
@@ -58,7 +59,7 @@ class BlackjackGame:
         self.player.add_card(self.deck.deal_card())
         self.player.add_card(self.deck.deal_card())
         self.split_hands = []
-        self.dealer = Hand()
+        self.dealer.clear()
         self.dealer.add_card(self.deck.deal_card())
         self.dealer.add_card(self.deck.deal_card())
         print("-" * 20)
@@ -94,11 +95,13 @@ class BlackjackGame:
                 busted = False
         if busted:
             print(f"Bust")
+            self.dealer_last_hand = []
             return
 
         # Play the dealer's hand
         while self.dealer.get_bj_score() < 17:
             self.dealer.add_card(self.deck.deal_card())
+        self.dealer_last_hand = self.dealer.get_cards()
 
         # Determine win/lose
         self.payout_hand(self.player)
@@ -119,7 +122,6 @@ class BlackjackGame:
         elif hand_score == dealer_score:
             print(f"Push")
             self.score += hand.bet
-
 
     def play_game(self, games=100):
         for n in range(games):
@@ -152,4 +154,4 @@ game = BlackjackGame(Bot)
 payout, num_hands = game.play_game(N)
 
 # Results
-print(f"{Bot.name} - Total: {payout} Avg: {payout / num_hands}")
+print(f"{Bot.name} - Total: {payout} Avg: {payout / num_hands:.3f}")

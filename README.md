@@ -1,4 +1,4 @@
-# Blackjack Bot
+# Blackjack Bots
 
 The code in this repository lets you build and test Python bots to play Blackjack.
 
@@ -34,9 +34,12 @@ The bot should follow these rules:
 * Name your bot file `bot_<username>.py`
 * Its class must be `Bot`.
 * It must have a method called `get_decision()`, which will receive two arguments:
-    * The dealer's up card
-    * The player's hand.
+    * The dealer's up card, a `Card` object.
+    * The player's hand, a list of `Card`s.
+    * The dealer's previous hand, a list of `Card`s.
 
 The function must then decide what action to take, returning *only* one of the following strings: `"hit"`, `"stand"`, `"split"`, or `"double down"`.
+
+**If your bot returns an illegal move, such as doubling down on more than two cards, you will immediately lose that hand.**
 
 The rest is up to you. You can import libraries, make other functions, etc. as you need them to help your bot make the best choices.

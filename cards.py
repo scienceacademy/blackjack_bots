@@ -17,6 +17,9 @@ class Hand:
     def __init__(self):
         self._cards = []
 
+    def __str__(self):
+        return str(self._cards)
+
     def add_card(self, card):
         self._cards.append(card)
 
@@ -24,7 +27,7 @@ class Hand:
         self._cards.remove(card)
 
     def get_cards(self):
-        return self._cards
+        return self._cards.copy()
 
     def clear(self):
         self._cards.clear()
