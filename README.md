@@ -6,7 +6,7 @@ To download this code in your CodeSpace, paste the following command in the Term
 
 ```bash
 wget https://github.com/scienceacademy/blackjack_bots/archive/refs/tags/1.zip
-unzip blackjack_bots.zip
+unzip 1.zip
 ```
 
 This will create a folder containing all the files listed above.
