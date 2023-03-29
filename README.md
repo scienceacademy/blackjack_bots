@@ -2,7 +2,7 @@
 
 The code in this repository lets you build and test Python bots to play Blackjack.
 
-To download this code in your CodeSpace, type the following command in the Terminal window:
+To download this code in your CodeSpace, paste the following command in the Terminal window:
 
 ```bash
 git clone https://github.com/scienceacademy/blackjack_bots.git
@@ -20,7 +20,7 @@ python blackjack_game.py bots/bot_human.py 1
 
 This runs a game with the bot named `bot_human` playing `1` game (one shuffle through the deck).
 
-At the end of the run of games, the program will print out a final score, showing its overall win/loss. You can use this score to evaluate how well your bot is doing.
+At the end of the run of games, the program will print out a final score, showing its overall win/loss and per-hand average. You can use this score to evaluate how well your bot is doing.
 
 ## Bot Instructions
 
