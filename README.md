@@ -5,7 +5,8 @@ The code in this repository lets you build and test Python bots to play Blackjac
 To download this code in your CodeSpace, paste the following command in the Terminal window:
 
 ```bash
-git clone https://github.com/scienceacademy/blackjack_bots.git
+wget https://github.com/scienceacademy/blackjack_bots/archive/refs/tags/blackjack_bots.zip
+unzip blackjack_bots.zip
 ```
 
 This will create a folder containing all the files listed above.
@@ -43,3 +44,4 @@ The function must then decide what action to take, returning *only* one of the f
 **If your bot returns an illegal move, such as doubling down on more than two cards, you will immediately lose that hand.**
 
 The rest is up to you. You can import libraries, make other functions, etc. as you need them to help your bot make the best choices.
+
