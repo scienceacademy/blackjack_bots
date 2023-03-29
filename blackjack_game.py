@@ -13,10 +13,12 @@ class BlackjackGame:
         self.player = Hand()
         self.dealer = Hand()
         self.split_hands = []
+        self.num_hands = 0
 
     def play_hand(self, hand):
         # This method plays one hand of Blackjack.
         hand.bet = 2
+        self.num_hands += 1
         while True:
             # Ask the bot what it wants to do
             decision = self.bot.get_decision(self.bot, self.dealer.get_cards()[0], hand.get_cards())
@@ -28,13 +30,16 @@ class BlackjackGame:
             elif decision == "stand":
                 break
             elif decision == "double down":
-                hand.add_card(self.deck.deal_card())
-                print(f"DD: {hand.get_cards()[-1]}")
-                if hand.get_bj_score() > 21:
+                if len(hand.get_cards()) == 2:
+                    hand.add_card(self.deck.deal_card())
+                    print(f"DD: {hand.get_cards()}")
+                    if hand.get_bj_score() > 21:
+                        break
+                    self.score -= 2
+                    hand.bet *= 2
                     break
-                self.score -= 2
-                hand.bet *= 2
-                break
+                else:
+                    continue
             elif decision == "split":
                 if len(hand.get_cards()) == 2 and hand.get_cards()[0].rank == hand.get_cards()[1].rank:
                     new_hand = Hand()
@@ -43,7 +48,7 @@ class BlackjackGame:
                     hand.add_card(self.deck.deal_card())
                     self.split_hands.append(new_hand)
                 else:
-                    print("can't split")
+                    # print("can't split")
                     continue
 
     def play_round(self):
@@ -123,7 +128,7 @@ class BlackjackGame:
             while len(self.deck.get_cards()) > 10:
                 self.play_round()
             print("==" * 20)
-        return self.score
+        return self.score, self.num_hands
 
 
 if len(sys.argv) != 3:
@@ -141,13 +146,10 @@ Bot = bot_module.Bot
 print(f"loaded {Bot}")
 Bot.name = Bot.__dict__['__module__']
 
-# This will be the total win/loss after playing N games
-payout_record = 0
 
 # Start the game and play N times
 game = BlackjackGame(Bot)
-s1 = game.play_game(N)
-payout_record += s1
+payout, num_hands = game.play_game(N)
 
 # Results
-print(f"{Bot.name} - Total: {payout_record} Avg: {payout_record / N}")
+print(f"{Bot.name} - Total: {payout} Avg: {payout / num_hands}")
