@@ -41,7 +41,7 @@ The bot should follow these rules:
 
 The function must then decide what action to take, returning *only* one of the following strings: `"hit"`, `"stand"`, `"split"`, or `"double down"`.
 
-**If your bot returns an illegal move, such as doubling down on more than two cards, you will immediately lose that hand.**
+**If your bot returns an illegal move, such as doubling down on more than two cards, it will be treated as "stand".**
 
 The rest is up to you. You can import libraries, make other functions, etc. as you need them to help your bot make the best choices.
 

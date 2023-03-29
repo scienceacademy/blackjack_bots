@@ -40,7 +40,7 @@ class BlackjackGame:
                     hand.bet *= 2
                     break
                 else:
-                    continue
+                    return
             elif decision == "split":
                 if len(hand.get_cards()) == 2 and hand.get_cards()[0].rank == hand.get_cards()[1].rank:
                     new_hand = Hand()
@@ -50,7 +50,7 @@ class BlackjackGame:
                     self.split_hands.append(new_hand)
                 else:
                     # print("can't split")
-                    continue
+                    return
 
     def play_round(self):
         # Play one round, deal cards
