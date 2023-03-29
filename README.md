@@ -5,7 +5,7 @@ The code in this repository lets you build and test Python bots to play Blackjac
 To download this code in your CodeSpace, paste the following command in the Terminal window:
 
 ```bash
-wget https://github.com/scienceacademy/blackjack_bots/archive/refs/tags/blackjack_bots.zip
+wget https://github.com/scienceacademy/blackjack_bots/archive/refs/tags/1.zip
 unzip blackjack_bots.zip
 ```
 
