@@ -8,7 +8,8 @@ class BlackjackGame:
     # This class handles playing the game between the bot and the dealer
     def __init__(self, bot):
         self.deck = Deck()
-        self.bot = bot
+        self.bot_class = bot
+        self.bot = bot()
         self.score = 0
         self.player = Hand()
         self.dealer = Hand()
@@ -22,7 +23,7 @@ class BlackjackGame:
         self.num_hands += 1
         while True:
             # Ask the bot what it wants to do
-            decision = self.bot.get_decision(self.bot, self.dealer.get_cards()[0], hand.get_cards(), self.dealer_last_hand)
+            decision = self.bot.get_decision(self.dealer.get_cards()[0], hand.get_cards(), self.dealer_last_hand)
             if decision == "hit":
                 hand.add_card(self.deck.deal_card())
                 print(f"Hit: {hand.get_cards()[-1]}")
@@ -127,7 +128,9 @@ class BlackjackGame:
         for n in range(games):
             self.deck = Deck()
             self.deck.shuffle()
-            while len(self.deck.get_cards()) > 10:
+            self.bot = self.bot_class()
+            self.dealer_last_hand = []
+            while len(self.deck.get_cards()) > 20:
                 self.play_round()
             print("==" * 20)
         return self.score, self.num_hands
