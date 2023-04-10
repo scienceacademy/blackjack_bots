@@ -96,7 +96,7 @@ class BlackjackGame:
                 busted = False
         if busted:
             print(f"Bust")
-            self.dealer_last_hand = []
+            self.dealer_last_hand = self.dealer.get_cards()
             return
 
         # Play the dealer's hand
