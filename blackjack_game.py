@@ -74,7 +74,7 @@ class BlackjackGame:
             return
         elif player_bj:
             print("Blackjack!")
-            self.score += 3
+            self.score += 5
             return
         elif dealer_bj:
             print("Dealer blackjack!")
