@@ -45,3 +45,11 @@ The function must then decide what action to take, returning *only* one of the f
 
 The rest is up to you. You can import libraries, make other functions, etc. as you need them to help your bot make the best choices.
 
+## Submitting your bot
+
+1. Click the "Add file" button above and choose "Create new file".
+2. In the "Name your file..." box, you *must* name your bot `bots/bot_username.py` so it can be identified as belonging to you.
+3. Paste your bot's code in the box, and then click the green *Propose new file* button.
+4. Click the green *Create pull request* button to submit your bot.
+
+You may submit 1 bot per person. If you need to update your bot, you can select the file you submitted above and click "Edit".
