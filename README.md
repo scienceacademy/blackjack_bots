@@ -2,11 +2,14 @@
 
 The code in this repository lets you build and test Python bots to play Blackjack.
 
-To download this code in your CodeSpace, paste the following command in the Terminal window:
+To download this code in your CodeSpace, click the green "Code" button and download the ZIP file.
+
+Drag the file and drop it on your CodeSpace.
+
+In the CodeSpace unzip the file using
 
 ```bash
-wget https://github.com/scienceacademy/blackjack_bots/archive/refs/tags/1.zip
-unzip 1.zip
+unzip blackjack_bots-master.zip
 ```
 
 This will create a folder containing all the files listed above.
