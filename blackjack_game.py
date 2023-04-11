@@ -78,6 +78,7 @@ class BlackjackGame:
             return
         elif dealer_bj:
             print("Dealer blackjack!")
+            self.dealer_last_hand = self.dealer.get_cards()
             return
 
         # Let the player play its hand
