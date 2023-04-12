@@ -2,6 +2,7 @@ class Bot:
     def blackjack_score(self, hand):
         score = 0
         ace = 0
+        loopnum = 0
         for card in hand:
             if card.rank < 11 and card.rank != 1:
                 score += card.rank
@@ -13,9 +14,11 @@ class Bot:
             for i in range(ace):
                 if score > 21:
                     score = score - 10
-        return score
+                    loopnum += 1
+        return score, ace - loopnum
     def get_decision(self, dealer_up_card, hand, dealer_prev_hand):
-        score = self.blackjack_score(hand)
+        score, soft = self.blackjack_score(hand)
+        print(f"{hand} {score} {soft}" )
         if hand[0].rank == hand[1].rank and len(hand) == 2:
             if score >= 8 or score <= 14:
                 return "hit"
@@ -40,13 +43,13 @@ class Bot:
         else:
             if score == 11 :
                     return "double down"
-            if ace < 1:
+            if soft == 0:
                 if score > 15 and score != 11:
                     return "stand"
                 if score <= 15:
                     return "hit"
             #hard aces and soft aces
-            if ace == 1:
+            if soft != 0:
                 if score < 12:
                     return "hit"
                 if score >= 13 and score <= 15:
