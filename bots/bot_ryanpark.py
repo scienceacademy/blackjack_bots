@@ -10,30 +10,30 @@ class Bot:
                 points += 10
             if card.rank == 1:
                 aces += 1
-            if aces == 1:
-                if points > 10:
-                    points += 1
-                if points <= 10:
-                    points += 11
-                    eleven += 1
-            if aces == 2:
-                if points > 9:
-                    points += 2
-                if points <= 9:
-                    points += 12
-                    eleven += 1
-            if aces == 3:
-                if points > 8:
-                    points += 3
-                if points <= 8:
-                    points += 13
-                    eleven += 1
-            if aces == 4:
-                if points > 7:
-                    points += 4
-                if points <= 7:
-                    points += 14
-                    eleven += 1
+        if aces == 1:
+            if points > 10:
+                points += 1
+            elif points <= 10:
+                points += 11
+                eleven += 1
+        if aces == 2:
+            if points > 9:
+                points += 2
+            elif points <= 9:
+                points += 12
+                eleven += 1
+        if aces == 3:
+            if points > 8:
+                points += 3
+            elif points <= 8:
+                points += 13
+                eleven += 1
+        if aces == 4:
+            if points > 7:
+                points += 4
+            elif points <= 7:
+                points += 14
+                eleven += 1
         length = len(hand)
         if (length == 2) and (hand[0].rank == hand[1].rank):
             if hand[0].rank == 1:
