@@ -65,7 +65,25 @@ class Bot:
         chance_getting_highcard = (num_tens + num_aces)/ num_cards_left
         chance_getting_midcard = (num_seven + num_eight + num_nine) / num_cards_left
         chance_getting_lowcard = 1 - chance_getting_highcard - chance_getting_midcard
-
+        if len(hand) == 2:
+            if Bot.num_in_hand(hand, 8) == 2 or Bot.num_in_hand(hand, 1) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 10) == 2:
+                return "stand"
+            if Bot.num_in_hand(hand, 9) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 7) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 6) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 5) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 4) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 3) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 2) == 2:
+                return "split"
         if aces == 0: # hard hands
             if score >= 4 and score <= 7:
                 if Bot.num_in_hand(hand, 2) == 2 or Bot.num_in_hand(hand, 3) == 2:
