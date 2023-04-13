@@ -1,7 +1,7 @@
 class Bot:
-    def get_decision(self, dealer_up_card, hand, prev_hand):
+    def get_decision(self, dealer_up_card, hand, dealer_prev_hand):
         points = 0
-        aces = 0
+        ace = 0
         eleven = 0
         for card in hand:
             if 2 <= card.rank <= 10:
@@ -9,33 +9,33 @@ class Bot:
             if 11 <= card.rank <= 13:
                 points += 10
             if card.rank == 1:
-                aces += 1
-        if aces == 1:
+                ace += 1
+        if ace == 1:
             if points > 10:
                 points += 1
             elif points <= 10:
                 points += 11
                 eleven += 1
-        if aces == 2:
+        if ace == 2:
             if points > 9:
                 points += 2
             elif points <= 9:
                 points += 12
                 eleven += 1
-        if aces == 3:
+        if ace == 3:
             if points > 8:
                 points += 3
             elif points <= 8:
                 points += 13
                 eleven += 1
-        if aces == 4:
+        if ace == 4:
             if points > 7:
                 points += 4
             elif points <= 7:
                 points += 14
                 eleven += 1
-        length = len(hand)
-        if (length == 2) and (hand[0].rank == hand[1].rank):
+        width = len(hand)
+        if (width == 2) and (hand[0].rank == hand[1].rank):
             if hand[0].rank == 1:
                 return "split"
             if (hand[0].rank == 9):
@@ -45,7 +45,7 @@ class Bot:
                     return "stand"
             if hand[0].rank == 8:
                 return "split"
-            if (hand[0].rank == 7) and (2 <= dealer_up_card.rank <= 8):
+            if (hand[0].rank == 7):
                 if (2 <= dealer_up_card.rank <= 8):
                     return "split"
                 if ((dealer_up_card.rank == 9) or (dealer_up_card.rank == 1)):
@@ -56,6 +56,14 @@ class Bot:
                 if (2 <= dealer_up_card.rank <= 7):
                     return "split"
                 if ((8 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
+                    return "hit"
+            if (hand[0].rank == 5):
+                if (2 <= dealer_up_card.rank <= 9):
+                    if (width == 2):
+                        return "double down"
+                    if (width > 2):
+                        return "hit"
+                if ((10 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
                     return "hit"
             if (hand[0].rank == 4):
                 if (4 <= dealer_up_card.rank <= 6):
@@ -101,23 +109,23 @@ class Bot:
                 if ((1 <= dealer_up_card.rank <= 3) or (7 <= dealer_up_card.rank <= 13)):
                     return "hit"
             if points == 11:
-                if (length == 2):
+                if (width == 2):
                     return "double down"
-                if (length > 2):
+                if (width > 2):
                     return "hit"
             if points == 10:
                 if (2 <= dealer_up_card.rank <= 9):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((10 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
                     return "hit"
             if points == 9:
                 if (2 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
                     return "hit"
@@ -125,9 +133,9 @@ class Bot:
                 if ((1 <= dealer_up_card.rank <= 4) or (7 <= dealer_up_card.rank <= 13)):
                     return "hit"
                 if (5 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
             if points <= 7:
                 return "hit"
@@ -138,15 +146,15 @@ class Bot:
                 if ((1 <= dealer_up_card.rank <= 5) or (7 <= dealer_up_card.rank <= 13)):
                     return "stand"
                 if (dealer_up_card.rank == 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "stand"
             if points == 18:
                 if (3 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "stand"
                 if ((7 <= dealer_up_card.rank <= 8) or (1 <= dealer_up_card.rank <= 2)):
                     return "stand"
@@ -154,41 +162,41 @@ class Bot:
                     return "hit"
             if points == 17:
                 if (2 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
                     return "hit"
             if points == 16:
                 if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
                     return "hit"
             if points == 15:
                 if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
                     return "hit"
             if points == 14:
                 if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
                     return "hit"
             if points == 13:
                 if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
+                    if (width == 2):
                         return "double down"
-                    if (length > 2):
+                    if (width > 2):
                         return "hit"
                 if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
                     return "hit"
