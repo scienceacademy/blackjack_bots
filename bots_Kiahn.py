@@ -1,196 +1,77 @@
-class Bot:
-    def get_decision(self, dealer_up_card, hand, prev_hand):
-        points = 0
-        aces = 0
-        eleven = 0
-        for card in hand:
-            if 2 <= card.rank <= 10:
-                points += card.rank
-            if 11 <= card.rank <= 13:
-                points += 10
+import random
+
+ranks = ["", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+
+suits = ["♥", "♣", "♠", "♦"]
+
+class Card:
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.suit = suit
+
+    def __str__(self):
+        return f"{ranks[self.rank]} of {suits[self.suit]}"
+
+class Deck:
+    def __init__(self):
+        self.cards = []
+        for suit in range(4):
+            for rank in range(1, 14):
+                self.cards.append(Card(rank, suit))
+    def deal_card(self):
+        return self.cards.pop()
+
+    def shuffle(self):
+        random.shuffle(self.cards)
+
+class Hand:
+    def __init__(self):
+        self.cards = []
+
+    def add_card(self, card):
+        self.cards.append(card)
+
+    def get_value(self):
+        value = 0
+        has_ace = False
+        for card in self.cards:
             if card.rank == 1:
-                aces += 1
-        if aces == 1:
-            if points > 10:
-                points += 1
-            elif points <= 10:
-                points += 11
-                eleven += 1
-        if aces == 2:
-            if points > 9:
-                points += 2
-            elif points <= 9:
-                points += 12
-                eleven += 1
-        if aces == 3:
-            if points > 8:
-                points += 3
-            elif points <= 8:
-                points += 13
-                eleven += 1
-        if aces == 4:
-            if points > 7:
-                points += 4
-            elif points <= 7:
-                points += 14
-                eleven += 1
-        length = len(hand)
-        if (length == 2) and (hand[0].rank == hand[1].rank):
-            if hand[0].rank == 1:
-                return "split"
-            if (hand[0].rank == 9):
-                if (2 <= dealer_up_card.rank <= 6) or (8 <= dealer_up_card.rank <= 9):
-                    return "split"
-                if ((dealer_up_card.rank == 7) or (10 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "stand"
-            if hand[0].rank == 8:
-                return "split"
-            if (hand[0].rank == 7) and (2 <= dealer_up_card.rank <= 8):
-                if (2 <= dealer_up_card.rank <= 8):
-                    return "split"
-                if ((dealer_up_card.rank == 9) or (dealer_up_card.rank == 1)):
-                    return "hit"
-                if (10 <= dealer_up_card.rank <= 13):
-                    return "stand"
-            if (hand[0].rank == 6):
-                if (2 <= dealer_up_card.rank <= 7):
-                    return "split"
-                if ((8 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if (hand[0].rank == 4):
-                if (4 <= dealer_up_card.rank <= 6):
-                    return "split"
-                if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
-                    return "hit"
-            if (hand[0].rank == 3):
-                if (2 <= dealer_up_card.rank <= 8):
-                    return "split"
-                if ((9 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if (hand[0].rank == 2):
-                if (2 <= dealer_up_card.rank <= 7):
-                    return "split"
-                if ((8 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-        if eleven == 0:
-            if points >= 17:
-                return "stand"
-            if points == 16:
-                if (2 <= dealer_up_card.rank <= 6):
-                    return "stand"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 15:
-                if (2 <= dealer_up_card.rank <= 6):
-                    return "stand"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 14:
-                if (2 <= dealer_up_card.rank <= 6):
-                    return "stand"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 13:
-                if (2 <= dealer_up_card.rank <= 6):
-                    return "stand"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 12:
-                if (4 <= dealer_up_card.rank <= 6):
-                    return "stand"
-                if ((1 <= dealer_up_card.rank <= 3) or (7 <= dealer_up_card.rank <= 13)):
-                    return "hit"
-            if points == 11:
-                if (length == 2):
-                    return "hit"
-                if (length > 2):
-                    return "hit"
-            if points == 10:
-                if (2 <= dealer_up_card.rank <= 9):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-                if ((10 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 9:
-                if (2 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 8:
-                if ((1 <= dealer_up_card.rank <= 4) or (7 <= dealer_up_card.rank <= 13)):
-                    return "hit"
-                if (5 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-            if points <= 7:
-                return "hit"
-        if eleven > 0:
-            if points >= 20:
-                return "stand"
-            if points == 19:
-                if ((1 <= dealer_up_card.rank <= 5) or (7 <= dealer_up_card.rank <= 13)):
-                    return "stand"
-                if (dealer_up_card.rank == 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "stand"
-            if points == 18:
-                if (3 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "stand"
-                if ((7 <= dealer_up_card.rank <= 8) or (1 <= dealer_up_card.rank <= 2)):
-                    return "stand"
-                if (9 <= dealer_up_card.rank <= 13):
-                    return "hit"
-            if points == 17:
-                if (2 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
-                    return "hit"
-            if points == 16:
-                if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
-                    return "hit"
-            if points == 15:
-                if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "double down"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
-                    return "hit"
-            if points == 14:
-                if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "hit"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
-                    return "hit"
-            if points == 13:
-                if (4 <= dealer_up_card.rank <= 6):
-                    if (length == 2):
-                        return "stand"
-                    if (length > 2):
-                        return "hit"
-                if ((7 <= dealer_up_card.rank <= 13) or (1 <= dealer_up_card.rank <= 3)):
-                    return "hit"
-        else:
-            return "double down"
+                has_ace = True
+            value += min(card.rank, 10)
+        if has_ace and value <= 11:
+            value += 10
+        return value
+
+    def __str__(self):
+        return ", ".join(str(card) for card in self.cards)
+
+class Blackjack:
+    def __init__(self):
+        self.deck = Deck()
+        self.deck.shuffle()
+        self.player_hand = Hand()
+        self.dealer_hand = Hand()
+        for i in range(2):
+            self.player_hand.add_card(self.deck.deal_card())
+            self.dealer_hand.add_card(self.deck.deal_card())
+
+    def play(self):
+        print("Player's hand: ", self.player_hand)
+        print("Dealer's hand: ", self.dealer_hand.cards[0])
+        while True:
+            choice = input("Hit or Stand ")
+            if choice.lower() == "hit":
+                self.player_hand.add_card(self.deck.deal_card())
+                print("Player's hand: ", self.player_hand)
+                if self.player_hand.get_value() > 21:
+                    print("Bust! You lose.")
+                    return
+            elif choice.lower() == "stand":
+                dealer_value = self.dealer_hand.get_value()
+                while dealer_value < 17:
+                    self.dealer_hand.add_card(self.deck.deal_card())
+                    dealer_value = self.dealer_hand.get_value()
+                print("Dealer's hand: ", self.dealer_hand)
+                return
+            else:
+                print("Invalid choice. Please try again.")
