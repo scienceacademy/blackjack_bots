@@ -1,3 +1,4 @@
+import io
 import os
 import sys
 import importlib
@@ -38,7 +39,7 @@ class BlackjackGame:
                     if hand.get_bj_score() > 21:
                         break
                     self.score -= 2
-                    hand.bet *= 2
+                    hand.bet += 2
                     break
                 else:
                     return
@@ -112,6 +113,9 @@ class BlackjackGame:
 
     def payout_hand(self, hand):
         hand_score = hand.get_bj_score()
+        if hand_score > 21:
+            print("Busted")
+            return
         dealer_score = self.dealer.get_bj_score()
         dealer_bust = dealer_score > 21
         print(f"Dealer: {self.dealer.get_cards()} - {'bust' if dealer_bust else dealer_score}")
@@ -144,7 +148,7 @@ N = int(sys.argv[2])
 
 # load the bot
 bot_path = os.path.join(".", filename)
-bot_name = filename[4:-3]
+bot_name = filename[5:-3]
 bot_spec = importlib.util.spec_from_file_location(bot_name, bot_path)
 bot_module = importlib.util.module_from_spec(bot_spec)
 bot_spec.loader.exec_module(bot_module)
@@ -152,10 +156,14 @@ Bot = bot_module.Bot
 print(f"loaded {Bot}")
 Bot.name = Bot.__dict__['__module__']
 
+# disable stdout
+# trap = io.StringIO()
+# sys.stdout = trap
 
 # Start the game and play N times
 game = BlackjackGame(Bot)
 payout, num_hands = game.play_game(N)
 
+sys.stdout = sys.__stdout__
 # Results
 print(f"{Bot.name} - Total: {payout} Avg: {payout / num_hands:.3f}")
