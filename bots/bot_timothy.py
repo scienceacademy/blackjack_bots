@@ -1,5 +1,5 @@
 class Bot:
-    def get_decision(self, dealer_up_card, hand, prev_hand):
+    def get_decision(self, dealer_up_card, hand, dealer_prev_hand):
         points = 0
         ace = 0
         eleven = 0
@@ -45,7 +45,7 @@ class Bot:
                     return "stand"
             if hand[0].rank == 8:
                 return "split"
-            if (hand[0].rank == 7) and (2 <= dealer_up_card.rank <= 8):
+            if (hand[0].rank == 7):
                 if (2 <= dealer_up_card.rank <= 8):
                     return "split"
                 if ((dealer_up_card.rank == 9) or (dealer_up_card.rank == 1)):
@@ -56,6 +56,14 @@ class Bot:
                 if (2 <= dealer_up_card.rank <= 7):
                     return "split"
                 if ((8 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
+                    return "hit"
+            if (hand[0].rank == 5):
+                if (2 <= dealer_up_card.rank <= 9):
+                    if (height == 2):
+                        return "double down"
+                    if (height > 2):
+                        return "hit"
+                if ((10 <= dealer_up_card.rank <= 13) or (dealer_up_card.rank == 1)):
                     return "hit"
             if (hand[0].rank == 4):
                 if (4 <= dealer_up_card.rank <= 6):
