@@ -1,0 +1,183 @@
+class Bot:
+    def init(self):
+        self.seen = set()
+    def blackjack_score(hand):
+        score = 0
+        aces = 0
+        for card in hand:
+            if card.rank >= 2 and card.rank <= 9:
+                score = score + card.rank
+            if card.rank >= 10:
+                score = score + 10
+            if card.rank == 1:
+                aces = aces + 1
+        for i in range(aces):
+            if score + 11 <= 21:
+                score = score + 11
+            elif score + 1 > 21:
+                score = score - 9
+            else:
+                score = score + 1
+        return score
+def certain_card_left(self, num):  # calculates how much of one card is left in the deck. For 10 it is 10 - K
+        number = 0
+        left = 0
+        if num == 10:
+            for card in self.seen:
+                if card.rank >= int(num):
+                    number = number + 1
+            left = 16 - number
+            return left
+        else:
+            for card in self.seen:
+                if card.rank == int(num):
+                    number = number + 1
+            left = 4 - number
+            return left
+
+def num_in_hand(hand, num):  # calculates how much of one card is in your hand
+        number = 0
+        for card in hand:
+            if card.rank == int(num):
+                number = number + 1
+        return number
+def get_decision(self, dealer_up_card, hand, dealer_prev_hand):
+        score = Bot.blackjack_score(hand)
+        self.seen.add(dealer_up_card)
+        for card in dealer_prev_hand:
+            if card not in self.seen:
+                self.seen.add(card)
+        for card in hand:
+            if card not in self.seen:
+                self.seen.add(card)
+        num_tens = Bot.certain_card_left(self, 10)
+        num_aces = Bot.certain_card_left(self, 1)
+        num_seven = Bot.certain_card_left(self, 7)
+        num_eight = Bot.certain_card_left(self, 8)
+        num_nine = Bot.certain_card_left(self, 9)
+        #print("num ten left in deck")
+        #print(num_tens)
+        #print("cards seen")
+        #print(self.seen)
+        #print("hand")
+        #print(hand)
+        #print("dealer up card")
+        #print(dealer_up_card)
+        aces = Bot.num_in_hand(hand, 1)
+        num_cards_seen = len(self.seen)
+        num_cards_left = 52 - num_cards_seen
+        chance_getting_ten = (num_tens)/ num_cards_left
+        if len(hand) == 2:
+            if Bot.num_in_hand(hand, 8) == 2 or Bot.num_in_hand(hand, 1) == 2:
+                return "split"
+            if Bot.num_in_hand(hand, 10) == 2:
+                return "stand"
+            if Bot.num_in_hand(hand, 9) == 2:
+                if (6 >= dealer_up_card.rank >= 2) or dealer_up_card.rank == 8 or dealer_up_card.rank == 9:
+                    return "split"
+                else:
+                    return "stand"
+            if Bot.num_in_hand(hand, 7) == 2:
+                if 7 >= dealer_up_card.rank >= 2:
+                    return "split"
+                elif dealer_up_card.rank == 10:
+                    return "stand"
+                else:
+                    return "hit"
+        if (dealer_up_card.rank == 2 or dealer_up_card.rank == 3) and score >= 13:
+            #print("chance_getting_ten")
+            #print(chance_getting_ten)
+            if chance_getting_ten > (4/10):
+                return "stand"
+            elif score < 17 and aces == 0:
+                return "hit"
+        if (dealer_up_card.rank == 4 or dealer_up_card.rank == 5) and score >= 13:
+            chance_dealer_bust =  (num_tens + num_nine)/ num_cards_left
+            #print("chance_dealer_bust")
+            #print(chance_dealer_bust)
+            if chance_dealer_bust >= (4/10):
+                return "stand"
+            elif score < 17 and aces == 0:
+                return "hit"
+        if (dealer_up_card.rank == 6) and score >= 13:
+            chance_dealer_bust =  (num_tens + num_nine + num_eight)/ num_cards_left
+            #print("chance_dealer_bust")
+            #print(chance_dealer_bust)
+            if chance_dealer_bust > (4/10):
+                return "stand"
+            elif score < 17 and aces == 0:
+                return "hit"
+        if aces == 0: # hard hands
+            if score >= 4 and score <= 7:
+                return "hit"
+            if score == 8:
+                return "hit"
+            if score == 9:
+                if dealer_up_card.rank < 7 and dealer_up_card.rank >= 2:
+                    return "double down"
+                else:
+                    return "hit"
+            if score == 10:
+                if dealer_up_card.rank < 10 and dealer_up_card.rank >= 2:
+                    return "double down"
+                else:
+                    return "hit"
+            if score == 11:
+                return "double down"
+            if score == 12:
+                if dealer_up_card.rank > 3 and dealer_up_card.rank < 7:
+                    return "stand"
+                else:
+                    return "hit"
+            if score == 14:
+                if Bot.num_in_hand(hand, 7) == 2:
+                    if dealer_up_card.rank < 8 and dealer_up_card.rank > 1:
+                        return "split"
+                    else:
+                        return "hit"
+            if score >= 13 and score <= 16:
+                if chance_getting_ten < (4/13):
+                    if dealer_up_card.rank > 1 and dealer_up_card.rank < 7:
+                        return "stand"
+                elif dealer_up_card.rank > 1 and dealer_up_card.rank < 10:
+                    return "stand"
+                else:
+                    return "hit"
+            if score >= 17:
+                return "stand"
+
+        if aces == 1: # soft hands
+            if score <=16:
+                if dealer_up_card.rank >=4 and dealer_up_card.rank <= 6:
+                    return "double down"
+                else:
+                    return "hit"
+            if score == 17:
+                if dealer_up_card.rank >= 2 and dealer_up_card.rank <= 6:
+                    return "double down"
+                else:
+                    return "hit"
+            if score == 17:
+                if dealer_up_card.rank >= 2 and dealer_up_card.rank <= 6:
+                    return "double down"
+                else:
+                    return "stand"
+            if score == 18:
+                if dealer_up_card.rank >= 3 and dealer_up_card.rank <= 6:
+                    return "double down"
+                else:
+                    return "stand"
+            if score == 19:
+                if dealer_up_card.rank == 6:
+                    return "double down"
+                else:
+                    return "stand"
+            if score > 19:
+                return "stand"
+        if aces == 2 and score == 12:
+            return "split"
+        else:
+            if score >= 17:
+                return "stand"
+            else:
+                return "hit"
