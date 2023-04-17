@@ -45,6 +45,7 @@ class BlackjackGame:
                     return
             elif decision == "split":
                 if len(hand.get_cards()) == 2 and hand.get_cards()[0].rank == hand.get_cards()[1].rank:
+                    self.score -= 2
                     new_hand = Hand()
                     new_hand.add_card(hand.deal_card())
                     new_hand.add_card(self.deck.deal_card())
@@ -157,8 +158,8 @@ print(f"loaded {Bot}")
 Bot.name = Bot.__dict__['__module__']
 
 # disable stdout
-# trap = io.StringIO()
-# sys.stdout = trap
+trap = io.StringIO()
+sys.stdout = trap
 
 # Start the game and play N times
 game = BlackjackGame(Bot)
